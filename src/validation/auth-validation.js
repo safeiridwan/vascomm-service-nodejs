@@ -9,6 +9,15 @@ const registerUserValidation = {
     }),
 };
 
+const loginUserValidation = {
+    body: Joi.object().keys({
+        email: Joi.string().max(100).required(),
+        password: Joi.string().max(100).required(),
+    }),
+};
+
+
 export const authValidation = {
     registerUserValidation,
+    loginUserValidation
 };

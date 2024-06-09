@@ -6,6 +6,7 @@ import {authValidation} from "../validation/auth-validation.js";
 const authRouter = new express.Router();
 authRouter.post('/register', validate(authValidation.registerUserValidation), authController.register);
 authRouter.post('/register/admin', validate(authValidation.registerUserValidation), authController.registerAdmin);
+authRouter.post('/login', validate(authValidation.loginUserValidation), authController.login);
 
 export {
     authRouter
