@@ -1,6 +1,7 @@
 import {ApiError} from "../util/api-error.js";
 import httpStatus from "http-status";
 import {User} from "../models/user-model.js";
+import {logger} from "../application/logging.js";
 
 const detailUser = async (req, userId) => {
     if (req.user.userId !== userId) {
@@ -48,6 +49,14 @@ const deleteUserById = async (req, userId) => {
 
 // eslint-disable-next-line require-await
 const listUser = async (filter, options) => {
+    if (filter.search) {
+        filter = {
+            $or: [
+                { 'firstName': { $regex: '.*' + filter.search + '.*' } },
+                { 'lastName':  { $regex: '.*' + filter.search + '.*' } },
+            ]
+        }
+    }
     return User.paginate(filter, options);
 };
 

@@ -57,6 +57,13 @@ const deleteProductById = async (req, productId) => {
 
 // eslint-disable-next-line require-await
 const listProduct = async (filter, options) => {
+    if (filter.search) {
+        filter = {
+            $or: [
+                { 'productName': { $regex: '.*' + filter.search + '.*' } },
+            ]
+        }
+    }
     return Product.paginate(filter, options);
 };
 

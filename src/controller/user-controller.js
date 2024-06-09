@@ -21,7 +21,7 @@ const deleteUserById = catchAsync(async (req, res) => {
 });
 
 const listUser = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['email']);
+    const filter = pick(req.query, ['search']);
     const options = pick(req.query, ['sortBy', 'take', 'skip']);
     const result = await userService.listUser(filter, options);
     res.status(200).send(new ApiResponse(httpStatus.OK, SUCCESS, result));
