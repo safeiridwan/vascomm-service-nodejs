@@ -2,9 +2,10 @@ import {ApiError} from "../util/api-error.js";
 import httpStatus from "http-status";
 import {User} from "../models/user-model.js";
 import {logger} from "../application/logging.js";
+import {ADMIN_ROLE} from "../util/constants.js";
 
 const detailUser = async (req, userId) => {
-    if (req.user.userId !== userId) {
+    if (req.user.userId !== userId && req.user.role !== ADMIN_ROLE) {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
@@ -17,7 +18,7 @@ const detailUser = async (req, userId) => {
 };
 
 const updateUserById = async (req, userId, updateBody) => {
-    if (req.user.userId !== userId) {
+    if (req.user.userId !== userId && req.user.role !== ADMIN_ROLE) {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
@@ -32,7 +33,7 @@ const updateUserById = async (req, userId, updateBody) => {
 };
 
 const deleteUserById = async (req, userId) => {
-    if (req.user.userId !== userId) {
+    if (req.user.userId !== userId && req.user.role !== ADMIN_ROLE) {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
@@ -48,13 +49,18 @@ const deleteUserById = async (req, userId) => {
 };
 
 // eslint-disable-next-line require-await
-const listUser = async (filter, options) => {
+const listUser = async (req, filter, options) => {
+    if (req.user.role !== ADMIN_ROLE) {
+        throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
+    }
+
     if (filter.search) {
         filter = {
             $or: [
                 { 'firstName': { $regex: '.*' + filter.search + '.*' } },
                 { 'lastName':  { $regex: '.*' + filter.search + '.*' } },
-            ]
+            ],
+            userStatus: true
         }
     }
     return User.paginate(filter, options);

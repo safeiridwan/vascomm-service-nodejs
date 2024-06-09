@@ -61,7 +61,8 @@ const listProduct = async (filter, options) => {
         filter = {
             $or: [
                 { 'productName': { $regex: '.*' + filter.search + '.*' } },
-            ]
+            ],
+            productStatus : true
         }
     }
     return Product.paginate(filter, options);
