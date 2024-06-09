@@ -7,7 +7,7 @@ const detailUser = async (req, userId) => {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
-    const user = await User.findOne({userId});
+    const user = await User.findOne({userId, userStatus: true});
     if (!user) {
         throw new ApiError(httpStatus.BAD_REQUEST, "User not found.");
     }
@@ -20,7 +20,7 @@ const updateUserById = async (req, userId, updateBody) => {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
-    const user = await User.findOne({userId});
+    const user = await User.findOne({userId, userStatus: true});
     if (!user) {
         throw new ApiError(httpStatus.BAD_REQUEST, "User not found.");
     }
@@ -35,7 +35,7 @@ const deleteUserById = async (req, userId) => {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
 
-    const user = await User.findOne({userId});
+    const user = await User.findOne({userId, userStatus: true});
     if (!user) {
         throw new ApiError(httpStatus.BAD_REQUEST, "User not found.");
     }
