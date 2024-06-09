@@ -6,6 +6,9 @@ import {errorHandler} from "../middleware/error-middleware.js";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
+import cors from "cors";
+import passport from "passport";
+import {jwtStrategy} from "../util/passport-util.js";
 export const web = express();
 
 // set security HTTP headers
@@ -20,6 +23,14 @@ web.use(express.urlencoded({ extended: true }));
 // sanitize request data
 web.use(xss());
 web.use(mongoSanitize());
+
+// enable cors
+web.use(cors());
+web.options('*', cors());
+
+// jwt authentication
+web.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
 
 // api routes
 web.use('/api/v1', routes);

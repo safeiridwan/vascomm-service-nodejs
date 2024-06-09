@@ -46,6 +46,7 @@ const userSchema = mongoose.Schema({
         },
         userStatus: {
             type: Boolean,
+            default: true
         },
         createdBy: {
             type: String,

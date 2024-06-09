@@ -1,6 +1,7 @@
 import express from "express";
 import {healthCheckRouter} from "./health-check-route.js";
 import {authRouter} from "./auth-route.js";
+import {userRouter} from "./user-route.js";
 
 export const router = express.Router();
 
@@ -12,6 +13,10 @@ const defaultRoutes = [
     {
         path: '/auth',
         route: authRouter,
+    },
+    {
+        path: '/user',
+        route: userRouter,
     },
 ];
 
