@@ -64,6 +64,8 @@ const listProduct = async (filter, options) => {
             ],
             productStatus : true
         }
+    } else {
+        filter = {productStatus : true};
     }
     return Product.paginate(filter, options);
 };

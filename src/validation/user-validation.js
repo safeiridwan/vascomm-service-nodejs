@@ -20,7 +20,7 @@ const updateUserValidation = {
 
 const listUsers = {
     query: Joi.object().keys({
-        search: Joi.string(),
+        search: Joi.string().allow('', null).optional(),
         sortBy: Joi.string(),
         take: Joi.number().integer(),
         skip: Joi.number().integer(),

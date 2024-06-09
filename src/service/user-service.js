@@ -53,8 +53,9 @@ const listUser = async (req, filter, options) => {
     if (req.user.role !== ADMIN_ROLE) {
         throw new ApiError(httpStatus.FORBIDDEN, "Forbidden.");
     }
-
+    logger.info(filter.search);
     if (filter.search) {
+        logger.info("MASUK SINI");
         filter = {
             $or: [
                 { 'firstName': { $regex: '.*' + filter.search + '.*' } },
@@ -62,6 +63,8 @@ const listUser = async (req, filter, options) => {
             ],
             userStatus: true
         }
+    } else {
+        filter = {userStatus : true};
     }
     return User.paginate(filter, options);
 };
